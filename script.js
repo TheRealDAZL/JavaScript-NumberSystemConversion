@@ -10,6 +10,42 @@ function afficher() {
 
 // Méthode qui effectue la conversion d'un string à un autre
 function validertEtConvertir(n, b1, b2) {
+    // Évaluer si le nombre commence par un tiret
+    // Note: cette variable sera réutilisée plus tard,
+    // vers la fin de la méthode
+    let nEstNegatif = n.startsWith("-")
+
+    // Mémoriser la nouvelle valeur de n, s'il y a lieu
+    n = validerBasesEtFormaterNombre(n, b1, b2, nEstNegatif)
+
+    // Déclarer et initialiser les variables
+    const symboles = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+        "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+        "U", "V", "W", "X", "Y", "Z"]
+
+    // Mémoriser le résultat de la méthode validerNombreEtCalculerValeur(n, b1, symboles)
+    // Cette méthode converti n en une somme de valeurs
+    let valeurTotale = validerNombreEtCalculerValeur(n, b1, symboles)
+
+    // Mémoriser le résultat de la méthode calculerEtConvertir(valeurTotale, b2, symboles).
+    // Cette méthode converti valeurTotale en une combinaison symbole(s)
+    let resultatFinal = calculerValeurEtConvertirResultat(valeurTotale, b2, symboles)
+
+    // Enlever la classe msgErreur à l'élément sélectionné, puis afficher le message suivant
+    document.getElementById("message").classList.remove("msgErreur")
+    document.getElementById("message").textContent = "Nombre converti avec succès"
+
+    // Si nEstNegatif === true, alors on ajoute un tiret en avant de resultatFinal,
+    // puis on retourne le string ainsi formé.
+    // Sinon, on retourne uniquement resultatFinal
+    return nEstNegatif ? "-" + resultatFinal : resultatFinal
+}
+
+
+
+// Méthode qui valide les bases entrées et le nombre entré, et qui reformate la valeur de n, si nécessaire
+function validerBasesEtFormaterNombre(nombre, b1, b2, nEstNegatif) {
     // Valider les valeurs de la baseInitiale
     if (b1 < 2 || b1 > 36) {
         document.getElementById("extrant").value = "Entrée invalide"
@@ -28,46 +64,33 @@ function validertEtConvertir(n, b1, b2) {
         throw new Error("La base doit être entre 2 et 36")
     }
 
-    // Évaluer si le nombre commence par un tiret
-    // Note: cette variable sera réutilisée plus tard,
-    // vers la fin de la méthode
-    let nEstNegatif = n.startsWith("-")
-
     // Si nEstNegatif === true ou le nombre commence par un signe positif,
     // alors on ignore le premier symbole du string
-    if (nEstNegatif  || n.startsWith("+")) {
-        n = n.substring(1)
+    if (nEstNegatif  || nombre.startsWith("+")) {
+        nombre = nombre.substring(1)
     }
 
     // Si n est vide, lancer un message d'erreur
-    if (n === "") {
+    if (nombre === "") {
         document.getElementById("extrant").value = "Entrée invalide"
         document.getElementById("message").classList.add("msgErreur")
-        document.getElementById("message").textContent = "Erreur : veuillez entrer un nombre"
+        document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre entier, <br>" +
+            "représenté dans une base entière de 2 jusqu'à 36"
 
-        throw new Error("Veuillez entrer un nombre")
+        throw new Error("Le nombre entré doit être un nombre entier, représenté dans une base entière de 2 jusqu'à 36")
     }
 
-    // Si n est égal à "0", enlever la classe msgErreur à l'élément sélectionné,
-    // ensuite afficher le message suivant, puis retourner 0
-    if (n === "0") {
-        document.getElementById("message").classList.remove("msgErreur")
-        document.getElementById("message").textContent = "Nombre converti avec succès"
+    return nombre
+}
 
-        return "0"
-    }
-
-    // Déclarer et initialiser les variables
-    const symboles = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-        "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
-        "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
-        "U", "V", "W", "X", "Y", "Z"]
-    let valeurTotale = 0
+// Méthode qui valide puis évalue la valeur de n
+function validerNombreEtCalculerValeur(n, b1, symboles) {
+    let valeur = 0
     let exposant = 0
 
     // Pour chaque symbole présent dans nombre :
     // 1) mémoriser temporairement le symbole dans une variable;
-    // 2) mémoriser le résultat de la méthode validerEtEvaluer(symbole, b1, symboles).
+    // 2) mémoriser le résultat de la méthode trouverSymbole(symbole, b1, symboles).
     // Cette méthode valide, puis converti le symbole en nombre,
     // ou retourne -1 si le symbole n'a pas été trouvé;
     // 3) si valeurTemp === -1, alors on affiche des messages d'erreur.
@@ -78,39 +101,29 @@ function validertEtConvertir(n, b1, b2) {
     for (let position = n.length - 1; position >= 0; position--)
     {
         let symbole = n[position]
-        let valeurTemp = validerEtEvaluer(symbole, b1, symboles)
+        let valeurTemp = trouverSymbole(symbole, b1, symboles)
 
         if (valeurTemp === -1) {
             document.getElementById("extrant").value = "Entrée invalide"
             document.getElementById("message").classList.add("msgErreur")
-            document.getElementById("message").textContent = "Erreur : le symbole entré n'est pas valide"
+            document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre entier, <br>" +
+                "représenté dans une base entière de 2 jusqu'à 36"
 
-            throw new Error("Le symbole entré n'est pas valide")
+            throw new Error("Le nombre entré contient des symboles illégaux")
         }
 
-        valeurTotale += valeurTemp * Math.pow(b1, exposant)
+        valeur += valeurTemp * Math.pow(b1, exposant)
         exposant++
     }
 
-    // Mémoriser le résultat de la méthode calculerEtConvertir(valeurTotale, b2, symboles).
-    // Cette méthode converti valeurTotale en symbole(s)
-    let resultatFinal = calculerEtConvertir(valeurTotale, b2, symboles)
-
-    // Enlever la classe msgErreur à l'élément sélectionné, puis afficher le message suivant
-    document.getElementById("message").classList.remove("msgErreur")
-    document.getElementById("message").textContent = "Nombre converti avec succès"
-
-    // Si nEstNegatif === true, alors on ajoute un tiret en avant de resultatFinal,
-    // puis on retourne le string ainsi formé.
-    // Sinon, on retourne uniquement resultatFinal
-    return nEstNegatif ? "-" + resultatFinal : resultatFinal
+    return valeur
 }
 
 // Méthode qui compare les valeurs présentes dans le tableau symboles avec
 // le symbole fourni. Si la comparaison est vraie, retourner la valeur
 // du compteur.
 // Sinon, retourner -1
-function validerEtEvaluer(symbole, base1, symboles) {
+function trouverSymbole(symbole, base1, symboles) {
     for (let compteur = 0; compteur < base1; compteur++) {
         if (symboles[compteur].toString() === symbole.toString()) {
             return compteur
@@ -122,10 +135,10 @@ function validerEtEvaluer(symbole, base1, symboles) {
 
 // Méthode qui converti la valeur fournie en un string qui représente
 // le résultat de la conversion
-function calculerEtConvertir(valeur, base2, symboles) {
-    // Si la valeur est égale à 0, retouner 0 (je pense que ce n'est pas nécessaire?)
+function calculerValeurEtConvertirResultat(valeur, base2, symboles) {
+    // Si valeur est égal à 0, retourner 0
     if (valeur === 0) {
-        return 0
+        return "0"
     }
 
     // Déclarer et initialiser une variable resultatTemp
