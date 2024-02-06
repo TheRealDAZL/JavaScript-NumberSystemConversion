@@ -83,10 +83,10 @@ function validerBasesEtFormaterNombre(nombre, b1, b2, nEstNegatif) {
     if (nombre === "") {
         document.getElementById("extrant").value = "Entrée invalide"
         document.getElementById("message").classList.add("msgErreur")
-        document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre entier, <br>" +
-            "représenté dans une base entière de 2 jusqu'à 36"
+        document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre représenté <br>" +
+            "dans une base entière de 2 jusqu'à 36"
 
-        throw new Error("Le nombre entré doit être un nombre entier, représenté dans une base entière de 2 jusqu'à 36")
+        throw new Error("Le nombre entré doit être représenté dans une base entière de 2 jusqu'à 36")
     }
 
     return nombre
@@ -102,9 +102,9 @@ function nPossedeUneVirgule(nombre, pointOuVirgule) {
     else {
         document.getElementById("extrant").value = "Entrée invalide"
         document.getElementById("message").classList.add("msgErreur")
-        document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre entier, <br>" +
-            "représenté dans une base entière de 2 jusqu'à 36"
-        throw new Error()
+        document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre représenté <br>" +
+            "dans une base entière de 2 jusqu'à 36"
+        throw new Error("Le nombre entré doit être représenté dans une base entière de 2 jusqu'à 36")
     }
 }
 
@@ -126,8 +126,8 @@ function validerNombreEtCalculerValeur(n, b1, symboles, positionPointOuVirgule) 
             if (valeurTemp === -1) {
                 document.getElementById("extrant").value = "Entrée invalide"
                 document.getElementById("message").classList.add("msgErreur")
-                document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre entier, <br>" +
-                    "représenté dans une base entière de 2 jusqu'à 36"
+                document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre représenté <br>" +
+                    "dans une base entière de 2 jusqu'à 36"
 
                 throw new Error("Le nombre entré contient des symboles illégaux")
             }
@@ -151,8 +151,8 @@ function validerNombreEtCalculerValeur(n, b1, symboles, positionPointOuVirgule) 
             if (valeurTemp === -1) {
                 document.getElementById("extrant").value = "Entrée invalide"
                 document.getElementById("message").classList.add("msgErreur")
-                document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre entier, <br>" +
-                    "représenté dans une base entière de 2 jusqu'à 36"
+                document.getElementById("message").innerHTML = "Erreur : veuillez entrer un nombre représenté <br>" +
+                    "dans une base entière de 2 jusqu'à 36"
 
                 throw new Error("Le nombre entré contient des symboles illégaux")
             }
@@ -192,7 +192,7 @@ function calculerValeurEtConvertirResultat(valeur, base2, symboles, positionPoin
         let tableau = valeur.toString().split(".")
         let compteurPrecision = 0 // À cause de l'erreur machine
 
-        tableau[1] = "0." + tableau[1]
+        tableau[1] = Number("0." + tableau[1])
 
         while (tableau[1] > 0 && compteurPrecision < 14) {
             let residu = Math.floor(tableau[1] * base2)
