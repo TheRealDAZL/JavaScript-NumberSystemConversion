@@ -10,22 +10,26 @@ body {
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 5vh;
 }
 
 label, input, p {
-    font-size: 36px;
+    font-size: 3.75vh;
 }
 
-p {
+.greyColor {
     color: darkgrey;
+}
+
+.container {
+    width: auto;
+    height: 100vh;
 }
 
 .flex {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    height: 100vh;
 }
 
 .msgErreur {
