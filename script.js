@@ -198,7 +198,7 @@ function calculerValeurEtConvertirResultat(valeur, base2, symboles) {
 
         while (tableau[1] > 0 && compteurPrecision < 15) {
             let entier = Math.floor(tableau[1] * base2)
-            resultatTemp += symboles[residu].toString()
+            resultatTemp += symboles[entier].toString()
             tableau[1] = tableau[1] * base2 - entier
 
             compteurPrecision++
