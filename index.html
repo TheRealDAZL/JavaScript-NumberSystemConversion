@@ -17,19 +17,20 @@
         </div>
 
         <div>
-            <p class="greyColor">Remplissez les champs suivants, puis appuyez sur Entrée</p>
+            <p class="greyColor">Remplissez les champs suivants, puis appuyez sur le bouton</p>
             <label for="intrant">Nombre à convertir :</label>
-            <input type="text" value="100,11" id="intrant" onchange="afficher()">
+            <input type="text" value="100,11" id="intrant">
             <br>
             <label for="baseInitiale">Base de la représentation initiale du nombre :</label>
-            <input type="number" value="2" min="2" max="36" id="baseInitiale" onchange="afficher()">
+            <input type="number" value="2" min="2" max="36" id="baseInitiale">
             <br>
             <label for="baseFinale">Base de la représentation finale du nombre :</label>
-            <input type="number" value="10" min="2" max="36" id="baseFinale" onchange="afficher()">
+            <input type="number" value="10" min="2" max="36" id="baseFinale">
             <br>
             <label for="extrant">Nombre converti :</label>
             <input type="text" id="extrant" readonly>
             <br>
+            <input type="button" value="Convertir" id="bouton" onclick="afficher()">
             <p id="message"></p>
             <p class="greyColor">Note : la précision de l'algorithme est réduite à 14 décimales</p>
             <p class="greyColor">afin de réduire l'erreur machine</p>

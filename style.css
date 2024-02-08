@@ -17,6 +17,10 @@ label, input, p {
     font-size: 3.75vh;
 }
 
+input[type="button"] {
+    width: 10vw;
+}
+
 .greyColor {
     color: darkgrey;
 }

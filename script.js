@@ -189,7 +189,7 @@ function trouverSymbole(symbole, base1, symboles) {
 // le résultat de la conversion
 function calculerValeurEtConvertirResultat(valeur, base2, symboles) {
     let resultatTemp= ""
-    let tableau = valeur.toString().split(".")
+    let tableau = String(valeur).split(".")
 
     // Si le nombre possède des décimales
     if (tableau.length > 1) {
